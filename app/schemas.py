@@ -2,6 +2,8 @@ from pydantic import BaseModel
 from datetime import date
 
 class UserCreate(BaseModel):
+    name: str
+    id: int
     email: str
     password: str
     role: str = "driver"
