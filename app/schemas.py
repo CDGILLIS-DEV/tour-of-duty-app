@@ -1,22 +1,28 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr, Field
 from datetime import date
+from enum import Enum
 
-class UserCreate(BaseModel):
-    name: str
-    id: int
-    email: str
-    password: str
+# Define user role
+class UserRole(str, Enum):
+    driver = "driver"
+    admin = "admin"
+
+# Shared template
+class UserBase(BaseModel):
+    id: int = Field(..., description="Driver ID (City Code + 3 Digit Truck Number, e.g., 3063XXX(Atlanta))")
+    name: str = Field(..., description="Driver's full name")
+    email: EmailStr = Field(description="Driver's email address")
     role: str = "driver"
 
+# For creation (input)
+class UserCreate(UserBase):
+    password: str = Field(..., description="Driver password")
+
 class UserLogin(BaseModel):
-    email: str
-    password: str
+    id_number: str = Field(..., description="Driver ID used for login")
+    password: str = Field(..., description="Driver password")
 
-class UserOut(BaseModel):
-    id: int
-    email: str
-    role: str
-
+class UserResponse(UserBase):
     class Config:
         orm_mode = True
 
