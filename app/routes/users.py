@@ -16,7 +16,7 @@ def get_db():
 
 @router.post("/register", response_model=schemas.UserResponse)
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
-    if db.query(models.User).filter(models.User.email == user.email).first():
+    if db.query(models.User).filter(models.User.email == user.email).first(): # check if email already registered
         raise HTTPException(status_code=400, detail="Email already registered")
     new_user = models.User(
         id=user.id,
@@ -25,8 +25,8 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
         hashed_password=auth.hash_password(user.password),
         role=user.role
     )
-    db.add(new_user)
-    db.commit()
+    db.add(new_user) # put new user in db queue
+    db.commit() # add new user to db
     db.refresh(new_user)
     return new_user
 

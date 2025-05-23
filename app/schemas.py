@@ -12,7 +12,7 @@ class UserBase(BaseModel):
     id: int = Field(..., description="Driver ID (City Code + 3 Digit Truck Number, e.g., 3063XXX(Atlanta))")
     name: str = Field(..., description="Driver's full name")
     email: EmailStr = Field(description="Driver's email address")
-    role: str = "driver"
+    role: UserRole = Field(..., description="Role of the user (driver or admin)") # Ensures only "driver" or "admin" can be selected during registration
 
 # For creation (input)
 class UserCreate(UserBase):

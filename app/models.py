@@ -1,10 +1,9 @@
-from sqlalchemy import Column, Date, Enum, Integer, String
+from sqlalchemy import Column, Integer, String, Date, Enum as SqlEnum
 from app.database import Base
+from app.schemas import UserRole
 import enum
 
-class UserRole(enum.Enum):
-    DRIVER = "driver"
-    ADMIN = "admin"
+
 
 class User(Base):
     __tablename__ = "users"
@@ -14,7 +13,7 @@ class User(Base):
     name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
-    role = Column(Enum(UserRole), default=UserRole.DRIVER, nullable=False,) # 'driver' or 'admin'
+    role = Column(SqlEnum(UserRole), nullable=False,) # 'driver' or 'admin'
 
 
 class LoadLeg(Base):
