@@ -40,6 +40,3 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 def read_current_user(user=Depends(get_current_user)):
     return {"email": user["sub"], "role": user["role"]}
 
-@router.get("/admin-only")
-def admin_area(user=Depends(require_role("admin"))):
-    return {"message": f"Welcome admin: {user['sub']}"}
