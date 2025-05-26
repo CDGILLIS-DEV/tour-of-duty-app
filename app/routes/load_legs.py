@@ -1,10 +1,13 @@
 from fastapi import  APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
+from typing import List
+from datetime import date
+
+from app.dependencies.auth import get_current_user
 from app.schemas import LoadLegCreate, LoadLegResponse
 from app.dependencies.db import SessionLocal, get_db
 from app.models import LoadLeg
-from typing import List
-from datetime import date
+
 
 
 router = APIRouter()

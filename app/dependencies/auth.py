@@ -51,20 +51,5 @@ def get_current_driver(current_user: User = Depends(get_current_user)) -> User:
                             )
     return current_user
 
-def require_role(required_role: UserRoles):
-    def role_checker(user: User = Depends(get_current_user)):
-        if user.role != required_role:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail=f"Requires {require_role} role"   
-            )
-        return user
-    return role_checker
 
-def require_admin(current_user: User = Depends(get_current_user)):
-    if current_user.role != "admin":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN, 
-            detail="You do not have permission to access this resource",            
-        )
-    return current_user
+
