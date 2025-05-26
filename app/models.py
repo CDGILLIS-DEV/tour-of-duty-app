@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Date, Enum as SqlEnum
 from app.dependencies.db import Base
-from app.schemas import UserRole
+from app.schemas import UserRoles
 import enum
 
 
@@ -13,7 +13,7 @@ class User(Base):
     name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
-    role = Column(SqlEnum(UserRole), nullable=False,) # 'driver' or 'admin'
+    role = Column(SqlEnum(UserRoles), nullable=False,) # 'driver' or 'admin'
 
 
 class LoadLeg(Base):
