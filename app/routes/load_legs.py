@@ -1,7 +1,7 @@
 from fastapi import  APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.schemas import LoadLegCreate, LoadLegResponse
-from app.database import SessionLocal, get_db
+from app.dependencies.db import SessionLocal, get_db
 from app.models import LoadLeg
 from typing import List
 from datetime import date

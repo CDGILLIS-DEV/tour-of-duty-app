@@ -3,7 +3,7 @@ from datetime import date
 from enum import Enum
 
 # Define user role
-class UserRole(str, Enum):
+class UserRoles(str, Enum):
     driver = "driver"
     admin = "admin"
 

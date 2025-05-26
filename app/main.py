@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.database import engine, create_db_and_tables
+from app.dependencies.db import engine, create_db_and_tables
 from app.models import Base
 from app.routes import users
 from app.routes import load_legs
