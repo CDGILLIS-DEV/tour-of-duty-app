@@ -1,15 +1,12 @@
 from passlib.context import CryptContext
-from datetime import datetime, timedelta
-from jose import jwt, JWTError
 from fastapi import Depends, HTTPException, status
 from fastapi.security import APIKeyHeader
 from sqlalchemy.orm import Session
 
 from app.models import User
-from app.config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
 from app.dependencies.db import get_db
 from app.schemas import UserRoles
-from app.utils import verify_password, get_password_hash
+from app.utils import verify_password, get_password_hash, create_access_token
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -17,19 +14,7 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 api_key_header = APIKeyHeader(name="Authorization", auto_error=False)
 
 
-def create_access_token(data: dict) -> str:
-    to_encode = data.copy()
-    expire = datetime.now() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
-    encode_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM) 
-    return encode_jwt
 
-def decode_access_token(token: str):
-    try:
-        return jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-    except JWTError:
-        return None
-    
 
 def get_current_user(token: str = Depends(api_key_header)):
     if not token.startswith("Bearer " ):
