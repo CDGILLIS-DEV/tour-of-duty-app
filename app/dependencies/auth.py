@@ -18,7 +18,7 @@ def get_current_user(
     db: Session = Depends(get_db)
 ) -> User:
     credentials_exeption = HTTPException(
-        status_code=401,
+        status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid or missing credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
@@ -36,6 +36,20 @@ def get_current_user(
         raise credentials_exeption
     
     return user
+
+def get_current_admin(current_user: User = Depends(get_current_user)) -> User:
+    if current_user.role != UserRoles.admin:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="Admin access required",
+                            )
+    return current_user
+
+def get_current_driver(current_user: User = Depends(get_current_user)) -> User:
+    if current_user.role != UserRoles.driver:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                            detail="Driver access required", 
+                            )
+    return current_user
 
 def require_role(required_role: UserRoles):
     def role_checker(user: User = Depends(get_current_user)):
