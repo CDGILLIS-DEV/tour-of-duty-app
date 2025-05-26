@@ -4,10 +4,10 @@ from app.models import User
 from app.schemas import UserRoles
 
 def require_admin(user: User = Depends(get_current_user)):
-    if user.role != "admin":
+    if user.role != UserRoles.admin:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN, 
-            detail="You do not have permission to access this resource",            
+            detail="Admin access required",            
         )
     return user
 

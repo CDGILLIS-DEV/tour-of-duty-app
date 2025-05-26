@@ -20,6 +20,7 @@ class LoadLeg(Base):
     __tablename__ = "load_legs"
 
     id =  Column(Integer, primary_key=True, index=True)
+    driver_name = Column(String, nullable=False, default=User.name)
     leg_number = Column(Integer, nullable=False)
     date = Column(Date, nullable=False)
     origin = Column(String, nullable=False)
