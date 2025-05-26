@@ -4,16 +4,18 @@ from jose import jwt, JWTError
 from fastapi import Depends, HTTPException, status
 from fastapi.security import APIKeyHeader
 from app.models import User
+from dotenv import load_dotenv
+import os
 
 from app.dependencies.db import get_db
 from app.schemas import UserRoles
 from sqlalchemy.orm import Session
 
+load_dotenv()
 
-
-SECRET_KEY = "your-secret-key" # Change this in production
-ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+SECRET_KEY = os.getenv("SECRET_KEY") 
+ALGORITHM = os.getenv("ALGORITHM")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 60))
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
