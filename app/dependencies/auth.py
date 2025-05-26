@@ -3,24 +3,19 @@ from datetime import datetime, timedelta
 from jose import jwt, JWTError
 from fastapi import Depends, HTTPException, status
 from fastapi.security import APIKeyHeader
+from sqlalchemy.orm import Session
+
 from app.models import User
-
 from app.config import SECRET_KEY, ALGORITHM, ACCESS_TOKEN_EXPIRE_MINUTES
-
 from app.dependencies.db import get_db
 from app.schemas import UserRoles
-from sqlalchemy.orm import Session
+from app.utils import verify_password, get_password_hash
+
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 api_key_header = APIKeyHeader(name="Authorization", auto_error=False)
 
-
-def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
 
 def create_access_token(data: dict) -> str:
     to_encode = data.copy()

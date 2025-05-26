@@ -2,6 +2,10 @@ from pydantic import BaseModel, EmailStr, Field
 from datetime import date
 from enum import Enum
 
+
+class Token(BaseModel):
+    access_token: str = Field(..., description="JWT access token")
+    token_type: str = Field(..., description="Token type, usually 'bearer'")
 # Define user role
 class UserRoles(str, Enum):
     driver = "driver"
