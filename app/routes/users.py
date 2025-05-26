@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app import models, schemas
 from app.dependencies.db import SessionLocal, get_db
-from app.dependencies.auth import get_current_user, require_role, require_admin
+from app.dependencies.auth import get_current_user, require_role, require_admin, hash_password
 
 
 router = APIRouter()
@@ -20,7 +20,7 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
         id=user.id,
         name=user.name,
         email=user.email,
-        hashed_password=auth.hash_password(user.password),
+        hashed_password= hash_password(user.password),
         role=user.role
     )
     db.add(new_user) # put new user in db queue
