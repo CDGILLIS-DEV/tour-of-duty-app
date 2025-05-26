@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from jose import jwt, JWTError
 from fastapi import Depends, HTTPException, status
 from fastapi.security import APIKeyHeader
+from app.models import User
 
 
 
@@ -12,7 +13,7 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-api_key_header = APIKeyHeader(name="Authorization")
+api_key_header = APIKeyHeader(name="Authorization", auto_error=False)
 
 
 def hash_password(password: str) -> str:
@@ -41,11 +42,11 @@ def get_current_user(token: str = Depends(api_key_header)):
             detail="Invalid token format"    
         )
     token_value = token.split(" ")[1]
-    # Proceed to decode and validat JWT
+    # Proceed to decode and validate JWT
 
 def require_role(required_role: str):
-    def role_dependency(user=Depends(get_current_user)):
-        if user["role"] != required_role:
+    def role_dependency(user: User = Depends(get_current_user)):
+        if user.role != required_role:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=f"Requires {require_role} role"   

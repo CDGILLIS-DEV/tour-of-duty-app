@@ -2,17 +2,15 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app import models, schemas, auth
-from app.database import SessionLocal
+from app.database import SessionLocal, get_db
 from app.auth import get_current_user, require_role
+from app.dependencies import require_admin
 
 router = APIRouter()
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+@router.get("/admin-only")
+def admin_dashboard(current_user: models.User = Depends(require_admin)):
+    return {"message": f"Welcome, {current_user.name}. You are an admin."}
 
 @router.post("/register", response_model=schemas.UserResponse)
 def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
