@@ -6,7 +6,7 @@ from enum import Enum
 class Token(BaseModel):
     access_token: str = Field(..., description="JWT access token")
     token_type: str = Field(..., description="Token type, usually 'bearer'")
-    
+
 # Define user role
 class UserRoles(str, Enum):
     driver = "driver"
@@ -33,6 +33,9 @@ class UserResponse(UserBase):
 
 # Shared template
 class LoadLegBase(BaseModel):
+    truck_number: int
+    truck_owner: str
+    driver_name: str
     leg_number: int
     date: date
     origin: str
