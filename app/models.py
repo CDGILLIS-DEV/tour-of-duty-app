@@ -8,9 +8,9 @@ import enum
 class User(Base):
     __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True, index=True)
-    id_number = Column(String, unique=True, index=True, nullable=False)
-    name = Column(String, nullable=False)
+    id = Column(Integer, primary_key=True, index=True, nullable=True)
+    id_number = Column(String, unique=True, index=True, nullable=True)
+    name = Column(String, nullable=True)
     email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     role = Column(SqlEnum(UserRoles), nullable=False,) # 'driver' or 'admin'
