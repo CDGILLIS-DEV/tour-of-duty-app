@@ -36,16 +36,18 @@ class LoadLegBase(BaseModel):
     truck_number: int
     truck_owner: str
     driver_name: str
-    leg_number: int
     date: date
-    origin: str
+    leg_number: int
     origin_city_state: str
-    destination: str
+    origin_customer: str
     destination_city_state: str
+    destination_customer: str
     container_number: str
     chassis_number: str
     pro_number: str
-    details: str
+    load_details: str
+    beg_odometer_reading: int
+    end_odometer_reading: int
 
 # For creation (input)
 class LoadLegCreate(LoadLegBase):
