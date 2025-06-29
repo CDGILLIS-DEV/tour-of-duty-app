@@ -8,7 +8,7 @@ import enum
 class User(Base):
     __tablename__ = "users"
 
-    # id_number = Column(String, unique=True, index=True, nullable=True)c
+    id_number = Column(String, unique=True, index=True, nullable=True)
     id = Column(Integer, primary_key=True, index=True, nullable=True)
     name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
