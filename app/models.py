@@ -1,14 +1,17 @@
 from sqlalchemy import Column, Integer, String, Date, Enum as SqlEnum
-from app.dependencies.db import Base
+# from app.dependencies.db import Base
+
 from app.schemas import UserRoles
 import enum
+from sqlalchemy.orm import declarative_base
 
 
+Base = declarative_base()
 
 class User(Base):
     __tablename__ = "users"
 
-    id_number = Column(String, unique=True, index=True, nullable=True)
+    #id_number = Column(String, unique=True, index=True, nullable=True)
     id = Column(Integer, primary_key=True, index=True, nullable=True)
     name = Column(String, nullable=False)
     email = Column(String, unique=True, index=True, nullable=False)
