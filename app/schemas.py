@@ -33,6 +33,7 @@ class UserResponse(UserBase):
 
 # Shared template
 class LoadLegBase(BaseModel):
+    id: int
     truck_number: int
     truck_owner: str
     driver_name: str
